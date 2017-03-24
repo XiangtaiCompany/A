@@ -7,8 +7,13 @@
 //
 
 #import "AViewController.h"
+#import <HandyFrame/UIView+LayoutMethods.h>
+#import <B_Category/CTMediator+B.h>
+#import <CTMediator/CTMediator.h>
 
 @interface AViewController ()
+
+@property (nonatomic, nullable, strong) UIButton *pushButton;
 
 @end
 
@@ -16,7 +21,26 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
+}
+
+- (void)pushButtonEvent:(UIButton *)button
+{
+    NSString *contentText = @"this is form A viewController";
+    UIViewController *b = [[CTMediator sharedInstance] B_viewControllerWithContentText:contentText];
+    [self.navigationController pushViewController:b animated:YES];
+}
+
+#pragma mark- Setter && Getter
+- (UIButton *)pushButton
+{
+    if (!_pushButton) {
+        _pushButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_pushButton setTitle:@"push B viewController" forState:UIControlStateNormal];
+        [_pushButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [_pushButton addTarget:self action:@selector(pushButtonEvent:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _pushButton;
 }
 
 - (void)didReceiveMemoryWarning {
